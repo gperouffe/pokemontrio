@@ -85,6 +85,9 @@
 	$color;
 	$types;
 	$habitat;
+	$canEvolve;
+	$evolvesToName;
+	$evolvesToSprite;
 	
 	
 	//Selecting 3 different IDs at random among the 151 first Pokémons (first Pokédex version)
@@ -99,16 +102,25 @@
 	//Getting data to fill-in the Pokédex pages of the 3 Pokémons
 	for($i=0; $i<3; $i++)
 	{
+		//Pokemon
 		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon/".$id[$i]);
 		$pokemonData = json_decode($jsonStr, true);
 		
+		//Pokemon Species
 		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon-species/".$id[$i]);
 		$speciesData = json_decode($jsonStr, true);
 		
+		//Pokemon Habitat
 		$habitatUrl = $speciesData["habitat"]["url"];
 		$jsonStr = $cache->getResource($habitatUrl);
 		$habitatData = json_decode($jsonStr, true);
 		
+		//Pokemon Evolution
+		$evoChainUrl = $speciesData["evolution_chain"]["url"];
+		$jsonStr = $cache->getResource($evoChainUrl);
+		$evoChainData = json_decode($jsonStr, true);
+		
+		//Pokemon Types
 		unset($typeList);
 		foreach($pokemonData["types"] as $value)
 		{
@@ -124,6 +136,7 @@
 		$color[$i] = $speciesData["color"]["name"];
 		if($color[$i] == 'black' || $color[$i] == 'white' || $color[$i] == 'gray') $color[$i]='grey';
 		$spriteFile[$i] = $cache->getImg($pokemonData["sprites"]["front_default"]);
+		$commonName = $speciesData["name"];
 		//Local data
 		$name[$i] = getLocale($speciesData["names"], $lang, "name");
 		$genus[$i] = getLocale($speciesData["genera"], $lang, "genus");
@@ -131,6 +144,12 @@
 		$text[$i] = getLocale($speciesData["flavor_text_entries"], $lang, "flavor_text");
 		$types[$i] = $typeList;
 		
+		//Going through the list of evolutions until we meet our pokemon;
+		while($evoChainData["chain"]["species"]["name"] !=$commonName && !empty($evoChainData["chain"]["evolves_to"]))
+		{
+			$evoChainData["chain"] = $evoChainData["chain"]["evolves_to"]["0"];
+		}
+		$canEvolve[$i] = !empty($evoChainData["chain"]["evolves_to"]);
 	}
 	
 	//Getting the poke-ball sprite
@@ -170,25 +189,35 @@
 				<p class="flow-text"> <?php echo json_decode(file_get_contents("locale.json"), true)[$lang]; ?></p>  
 
 				<div class="center-align">
+				
 				<?php
 					for($i=0; $i<3; $i++)
 					{
 						echo "<span class='pkmnBlock'>";
-							echo '<a class="pkbl" id="pkbl'.$i.'" href="#null"><img class="poke" src="'.$ballSprite.'"></a>';
-							echo '<a class="pkmn" id="pkmn'.$i.'" href="#pkdx'.$i.'" style="display:none"><img class="poke" src="'.$spriteFile[$i].'"></a>';
+							echo '<a id="pkbl'.$i.'" href="#null"><img class="pkbl" src="'.$ballSprite.'"></a>';
+							echo '<a id="pkmn'.$i.'" href="#null'.$i.'" style="display:none"><img class="pkmn" src="'.$spriteFile[$i].'"></a>';
 						echo "</span>";
 					}
 				?>
+				
 				</div>
 				<div class="row">
+				
 				<?php
 					for($i=0; $i<3; $i++)
 					{
 						echo 
 						'<div class="card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
-							<div class="card-image">
-								<img src="'.$spriteFile[$i].'">
-							</div>
+							<div class="card-image center-align">
+								<p><img src="'.$spriteFile[$i].'"></p>';
+						if($canEvolve[$i])
+						{
+							echo
+								'<i class="material-icons '.$color[$i].'-text" style="font-size:3em">arrow_downward</i>
+								<p><img src="'.$spriteFile[$i].'"></p>';
+						}
+						echo
+							'</div>
 							<div class="card-stacked">
 								<div class="card-content">
 									<h4>'.$id[$i].': '.$name[$i].'</h4>
@@ -206,6 +235,7 @@
 						</div>';
 					}	
 				?>
+				
 				</div>
 			</div>
 		</main>

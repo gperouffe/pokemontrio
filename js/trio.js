@@ -30,8 +30,8 @@ $(document).ready(function(){
 	);
 	$('#pkbl0').click(
 	function() {
-			$('#pkdx1').fadeOut();
-			$('#pkdx2').fadeOut();
+			$('#pkdx1').fadeOut("slow");
+			$('#pkdx2').fadeOut("slow");
 			$('#pkbl0').fadeOut("slow", function(){		
 				$('#pkmn0').show();
 				$('#pkdx0').fadeIn("slow");		
@@ -40,8 +40,8 @@ $(document).ready(function(){
 	);
 	$('#pkbl1').click(
 		function() {
-			$('#pkdx0').fadeOut();
-			$('#pkdx2').fadeOut();
+			$('#pkdx0').fadeOut("slow");
+			$('#pkdx2').fadeOut("slow");
 			$('#pkbl1').fadeOut("slow", function(){		
 				$('#pkmn1').show();		
 				$('#pkdx1').fadeIn("slow");		
@@ -50,8 +50,8 @@ $(document).ready(function(){
 	);
 	$('#pkbl2').click(
 		function() {
-			$('#pkdx0').fadeOut();
-			$('#pkdx1').fadeOut();
+			$('#pkdx0').fadeOut("slow");
+			$('#pkdx1').fadeOut("slow");
 			$('#pkbl2').fadeOut("slow", function(){		
 				$('#pkmn2').show();	
 				$('#pkdx2').fadeIn("slow");		
