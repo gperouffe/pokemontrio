@@ -103,11 +103,11 @@
 	for($i=0; $i<3; $i++)
 	{
 		//Pokemon
-		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon/".$id[$i]);
+		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon/".$id[$i]."/");
 		$pokemonData = json_decode($jsonStr, true);
 		
 		//Pokemon Species
-		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon-species/".$id[$i]);
+		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon-species/".$id[$i]."/");
 		$speciesData = json_decode($jsonStr, true);
 		
 		//Pokemon Habitat
@@ -144,7 +144,7 @@
 		$text[$i] = getLocale($speciesData["flavor_text_entries"], $lang, "flavor_text");
 		$types[$i] = $typeList;
 		
-		//Going through the list of evolutions until we meet our pokemon;
+		//Going through the list of evolutions until we encounter our pokemon;
 		while($evoChainData["chain"]["species"]["name"] !=$commonName && !empty($evoChainData["chain"]["evolves_to"]))
 		{
 			$evoChainData["chain"] = $evoChainData["chain"]["evolves_to"][0];
@@ -161,8 +161,13 @@
 			$jsonStr = $cache->getResource($evoSpeciesData["varieties"][0]["pokemon"]["url"]);
 			$evoData = json_decode($jsonStr, true);
 			
-			$evoToName[$i] = getLocale($evoSpeciesData["names"], $lang, "name");
-			$evoToSprite[$i] = $cache->getImg($evoData["sprites"]["front_default"]);
+			//Confirm that the evolution still belongs to 1st gen
+			$canEvolve[$i] = ($evoSpeciesData["generation"]["name"] == "generation-i");
+			if($canEvolve[$i])
+			{
+				$evoToName[$i] = getLocale($evoSpeciesData["names"], $lang, "name");
+				$evoToSprite[$i] = $cache->getImg($evoData["sprites"]["front_default"]);
+			}
 		}
 	}
 	
@@ -208,8 +213,8 @@
 					for($i=0; $i<3; $i++)
 					{
 						echo "<span class='pkmnBlock'>";
-							echo '<a id="pkbl'.$i.'" href="#null"><img class="pkbl" src="'.$ballSprite.'"></a>';
-							echo '<a id="pkmn'.$i.'" href="#null'.$i.'" style="display:none"><img class="pkmn" src="'.$spriteFile[$i].'"></a>';
+							echo '<a id="pkbl'.$i.'" href="#null"><img width="50px" height="50px" class="pkbl roll" style="animation-delay:-'.rand(1,10).'s" src="'.$ballSprite.'"></a>';
+							echo '<a id="pkmn'.$i.'" href="#null'.$i.'" style="display:none"><img class="pkmn breath" src="'.$spriteFile[$i].'"></a>';
 						echo "</span>";
 					}
 				?>
@@ -221,7 +226,7 @@
 					for($i=0; $i<3; $i++)
 					{
 						echo 
-						'<div class="card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
+						'<div class="pkdx card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
 							<div class="card-image center-align">
 								<p><img src="'.$spriteFile[$i].'"></p>';
 						if($canEvolve[$i])

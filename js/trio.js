@@ -28,34 +28,29 @@ $(document).ready(function(){
 		function(){
 		}
 	);
-	$('#pkbl0').click(
-	function() {
-			$('#pkdx1').fadeOut("slow");
-			$('#pkdx2').fadeOut("slow");
-			$('#pkbl0').fadeOut("slow", function(){		
-				$('#pkmn0').show();
-				$('#pkdx0').fadeIn("slow");		
-			});
-		}
-	);
-	$('#pkbl1').click(
-		function() {
-			$('#pkdx0').fadeOut("slow");
-			$('#pkdx2').fadeOut("slow");
-			$('#pkbl1').fadeOut("slow", function(){		
-				$('#pkmn1').show();		
-				$('#pkdx1').fadeIn("slow");		
-			});
-		}
-	);
-	$('#pkbl2').click(
-		function() {
-			$('#pkdx0').fadeOut("slow");
-			$('#pkdx1').fadeOut("slow");
-			$('#pkbl2').fadeOut("slow", function(){		
-				$('#pkmn2').show();	
-				$('#pkdx2').fadeIn("slow");		
-			});
-		}
-	);
+	
+	$('#pkbl0').one('click',function(){
+		$('.pkdx:visible').fadeOut("slow");
+		$('#pkbl0').fadeOut("slow", function(){		
+			$('.pkmn:visible').removeClass('breath');
+			$('#pkmn0').show();
+			$('#pkdx0').fadeIn("slow");		
+		});
+	});
+	$('#pkbl1').one('click',function(){
+		$('.pkdx:visible').fadeOut("slow");
+		$('#pkbl1').fadeOut("slow", function(){		
+			$('.pkmn:visible').removeClass('breath');
+			$('#pkmn1').show();		
+			$('#pkdx1').fadeIn("slow");		
+		});
+	});
+	$('#pkbl2').one('click',function(){
+		$('.pkdx:visible').fadeOut("slow");
+		$('#pkbl2').fadeOut("slow", function(){		
+			$('.pkmn:visible').removeClass('breath');
+			$('#pkmn2').show();	
+			$('#pkdx2').fadeIn("slow");		
+		});
+	});
 });
