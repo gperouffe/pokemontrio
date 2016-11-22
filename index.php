@@ -71,7 +71,7 @@
 		$lang = $_GET["lang"];
 	}
 	
-	//Data to gather
+	//Data to gather (only here as a reminder)
 	$id;
 	$name;
 	$height;
@@ -88,7 +88,7 @@
 	for($i=0; $i<3; $i++)
 		$id[$i]=rand(1,151);
 	
-	//Getting data to fill in the Pokédex cards
+	//Getting data to fill-in the Pokédex pages of the 3 Pokémons
 	for($i=0; $i<3; $i++)
 	{
 		$jsonStr = $cache->getResource("http://pokeapi.co/api/v2/pokemon/".$id[$i]);
@@ -127,8 +127,8 @@
 	
 ?>
  
-	<!DOCTYPE html>
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
@@ -175,7 +175,7 @@
 									<h4>'.$id[$i].': '.$name[$i].'</h4>
 									<h5>'.$genus[$i].'</h5><br>
 									<p>';
-						if($types[$i][1] != "N/A") echo $types[$i][0]."/".$types[$i][1];
+						if($types[$i][1] != "N/A") echo $types[$i][0]."/".$types[$i][1]; //If there are two types, separate them with a /
 						else echo $types[$i][0];
 						echo						
 								'	('.$habitat[$i].')</p>
@@ -196,4 +196,4 @@
 		<script type="text/javascript" src="js/trio.js"></script>
 		
 	</body>
-	</html>
+</html>
