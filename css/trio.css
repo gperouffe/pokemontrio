@@ -57,12 +57,6 @@
 	animation: roll 10s ease infinite;	
 }
 
-.shrink
-{
-	transition: all 1s
-	transform: scale(1);
-}
-
 .pkmnBlock
 {
 	vertical-align:top;

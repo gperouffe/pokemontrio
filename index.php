@@ -196,7 +196,7 @@
 			<div class="container">
 				<section class="row valign-wrapper">
 					<h1 class="col s11">Pokémon Trio</h1>		
-					<a class='dropdown-button btn col s2 m1 grey' href='#' data-activates='dropdown1'><?php echo $lang; ?></a>
+					<a class='dropdown-button waves-effect waves-light btn col s2 m1 grey' href='#' data-activates='dropdown1'><?php echo $lang; ?></a>
 					<ul id='dropdown1' class='dropdown-content'>
 						<li><a href="?lang=fr">fr</a></li>
 						<li><a href="?lang=en">en</a></li>
@@ -212,9 +212,9 @@
 				<?php
 					for($i=0; $i<3; $i++)
 					{
-						echo "<span class='pkmnBlock'>";
-							echo '<a id="pkbl'.$i.'" href="#null"><img width="50px" height="50px" class="pkbl roll" style="animation-delay:-'.rand(1,10).'s" src="'.$ballSprite.'"></a>';
-							echo '<a id="pkmn'.$i.'" href="#null'.$i.'" style="display:none"><img class="pkmn breath" src="'.$spriteFile[$i].'"></a>';
+						echo "<span class='pkmnBlock' id='pkmnBlock".$i."'>";
+							echo '<a class="pkbl" id="pkbl'.$i.'" href="#null"><img width="50px" height="50px" class="pkbl roll" style="animation-delay:-'.rand(1,10).'s" src="'.$ballSprite.'"></a>';
+							echo '<a class="pkmn" id="pkmn'.$i.'" href="#null" style="display:none"><img class="pkmn breath" src="'.$spriteFile[$i].'"></a>';
 						echo "</span>";
 					}
 				?>
@@ -227,7 +227,7 @@
 					{
 						echo 
 						'<div class="pkdx card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
-							<div class="card-image center-align">
+							<div class="card-image center-align '.$color[$i].' lighten-4">
 								<p><img src="'.$spriteFile[$i].'"></p>';
 						if($canEvolve[$i])
 						{
@@ -249,7 +249,7 @@
 								'	('.$habitat[$i].')</p>
 									<p>'.($height[$i]/10).'m, '.($weight[$i]/10).' kg</p>
 									<blockquote style="border-left-color:'.$color[$i].'">'.$text[$i].'</blockquote>
-									<a class="btn '.$color[$i].' darken-2" href="index.php">OK</a>
+									<a class="choice btn '.$color[$i].' darken-2 waves-effect waves-light" id="choice'.$i.'" href="#null">OK</a>
 								</div>
 							</div>
 						</div>';
