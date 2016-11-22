@@ -7,6 +7,19 @@
     transition: all 1s ease;
 }
 
+.pkmnBlock
+{
+	vertical-align:top;
+	display: inline-block;
+	width:96px;
+	height:96px;
+}
+.pkbl
+{
+	display: inline-block;
+	height:96px;
+}
+
 .poke:hover
 {
     -webkit-transform:scale(1.5); /* Safari and Chrome */

@@ -57,7 +57,9 @@
 		}
 	}
 	
-	$cache = new Cache(30*24*3600); //Cache with 30 days persistence
+	//Cache with 30 days persistence
+	//The v2 of the API does not include "modified" timestamps
+	$cache = new Cache(30*24*3600);
 	
 	//Setting UI language
 	$lang = 'fr';
@@ -72,7 +74,7 @@
 	}
 	
 	//Data to gather (only here as a reminder)
-	$id;
+	$id=[];
 	$name;
 	$height;
 	$weight;
@@ -84,9 +86,14 @@
 	$habitat;
 	
 	
-	//Selecting 3 IDs at random among the 151 first Pokémons (first Pokédex version)
+	//Selecting 3 different IDs at random among the 151 first Pokémons (first Pokédex version)
 	for($i=0; $i<3; $i++)
-		$id[$i]=rand(1,151);
+	{	
+		$r = rand(1, 151);
+		while(in_array($r, $id))
+			$r = rand(1, 151);
+		$id[$i]=$r;
+	}
 	
 	//Getting data to fill-in the Pokédex pages of the 3 Pokémons
 	for($i=0; $i<3; $i++)
@@ -125,6 +132,11 @@
 		
 	}
 	
+	//Getting the poke-ball sprite
+	$jsonStr = $cache->getResource("https://pokeapi.co/api/v2/item/poke-ball");
+	$pokeballData = json_decode($jsonStr, true);
+	$ballSprite = $cache->getImg($pokeballData["sprites"]["default"]);
+	
 ?>
  
 <!DOCTYPE html>
@@ -137,7 +149,7 @@
 		
 		<meta http-equiv="content-type" content="text/html" charset="utf-8">
 		<title>Pokémon Trio</title>
-		<link rel="icon" href="img/poele.ico" type="image/x-icon">
+		<link rel="icon" type="image/png" href="<?php echo $ballSprite; ?>">
 	</head>
 
 	<body>
@@ -149,6 +161,7 @@
 					<ul id='dropdown1' class='dropdown-content'>
 						<li><a href="?lang=fr">fr</a></li>
 						<li><a href="?lang=en">en</a></li>
+						<li><a href="?lang=de">de</a></li>
 						<li><a href="?lang=es">es</a></li>
 					</ul>
 				</section>
@@ -158,7 +171,12 @@
 				<div class="center-align">
 				<?php
 					for($i=0; $i<3; $i++)
-						echo '<a id='.$i.' href="#pkdx'.$i.'"><img class="poke" src="'.$spriteFile[$i].'"></a>';
+					{
+						echo "<span class='pkmnBlock'>";
+							echo '<a class="pkbl" id="pkbl'.$i.'" href="#null"><img class="poke" src="'.$ballSprite.'"></a>';
+							echo '<a class="pkmn" id="pkmn'.$i.'" href="#pkdx'.$i.'" hidden><img class="poke" src="'.$spriteFile[$i].'"></a>';
+						echo "</span>";
+					}
 				?>
 				</div>
 				<div class="row">
