@@ -86,8 +86,8 @@
 	$types;
 	$habitat;
 	$canEvolve;
-	$evolvesToName;
-	$evolvesToSprite;
+	$evoToName;
+	$evoToSprite;
 	
 	
 	//Selecting 3 different IDs at random among the 151 first Pokémons (first Pokédex version)
@@ -147,9 +147,23 @@
 		//Going through the list of evolutions until we meet our pokemon;
 		while($evoChainData["chain"]["species"]["name"] !=$commonName && !empty($evoChainData["chain"]["evolves_to"]))
 		{
-			$evoChainData["chain"] = $evoChainData["chain"]["evolves_to"]["0"];
+			$evoChainData["chain"] = $evoChainData["chain"]["evolves_to"][0];
 		}
 		$canEvolve[$i] = !empty($evoChainData["chain"]["evolves_to"]);
+		if($canEvolve[$i])
+		{
+			$evoChainData["chain"] = $evoChainData["chain"]["evolves_to"][0];
+			
+			//Getting the species of the next evolution
+			$jsonStr = $cache->getResource($evoChainData["chain"]["species"]["url"]);
+			$evoSpeciesData = json_decode($jsonStr, true);
+			//Getting the Pokemon of the next evolution
+			$jsonStr = $cache->getResource($evoSpeciesData["varieties"][0]["pokemon"]["url"]);
+			$evoData = json_decode($jsonStr, true);
+			
+			$evoToName[$i] = getLocale($evoSpeciesData["names"], $lang, "name");
+			$evoToSprite[$i] = $cache->getImg($evoData["sprites"]["front_default"]);
+		}
 	}
 	
 	//Getting the poke-ball sprite
@@ -214,7 +228,8 @@
 						{
 							echo
 								'<i class="material-icons '.$color[$i].'-text" style="font-size:3em">arrow_downward</i>
-								<p><img src="'.$spriteFile[$i].'"></p>';
+								<p><img src="'.$evoToSprite[$i].'">
+								'.$evoToName[$i].'</p>';
 						}
 						echo
 							'</div>
