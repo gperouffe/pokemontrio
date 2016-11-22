@@ -42,6 +42,7 @@
 				//We need to fetch a newer copy of the image
 			{
 				file_put_contents($cacheFile, file_get_contents($url));
+				chmod($cacheFile, 644);
 			}
 			return $cacheFile;
 		}
