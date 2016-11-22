@@ -174,7 +174,7 @@
 					{
 						echo "<span class='pkmnBlock'>";
 							echo '<a class="pkbl" id="pkbl'.$i.'" href="#null"><img class="poke" src="'.$ballSprite.'"></a>';
-							echo '<a class="pkmn" id="pkmn'.$i.'" href="#pkdx'.$i.'" hidden><img class="poke" src="'.$spriteFile[$i].'"></a>';
+							echo '<a class="pkmn" id="pkmn'.$i.'" href="#pkdx'.$i.'" style="display:none"><img class="poke" src="'.$spriteFile[$i].'"></a>';
 						echo "</span>";
 					}
 				?>
