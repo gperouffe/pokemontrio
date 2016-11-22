@@ -114,7 +114,7 @@
 		$height[$i] = $pokemonData["height"];
 		$weight[$i] = $pokemonData["weight"];
 		$color[$i] = $speciesData["color"]["name"];
-		if($color[$i] == 'black') $color[$i]='grey';
+		if($color[$i] == 'black' || $color[$i] == 'white' || $color[$i] == 'gray') $color[$i]='grey';
 		$spriteFile[$i] = $cache->getImg($pokemonData["sprites"]["front_default"]);
 		//Local data
 		$name[$i] = getLocale($speciesData["names"], $lang, "name");
@@ -166,7 +166,7 @@
 					for($i=0; $i<3; $i++)
 					{
 						echo 
-						'<div class="card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-2" id="pkdx'.$i.'" style="display:none">
+						'<div class="card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
 							<div class="card-image">
 								<img src="'.$spriteFile[$i].'">
 							</div>
@@ -181,7 +181,7 @@
 								'	('.$habitat[$i].')</p>
 									<p>'.($height[$i]/10).'m, '.($weight[$i]/10).' kg</p>
 									<blockquote style="border-left-color:'.$color[$i].'">'.$text[$i].'</blockquote>
-									<a class="btn '.$color[$i].'" href="index.php">OK</a>
+									<a class="btn '.$color[$i].' darken-2" href="index.php">OK</a>
 								</div>
 							</div>
 						</div>';
