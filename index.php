@@ -1,13 +1,13 @@
 <!---------------------------------------------------------
 *	Filename : index.php
 *	Author : Guillaume Perouffe
-*	Last Modified : Nov 21, 2016
+*	Last Modified : Nov 23, 2016
 *	
 *	Description : 
-*	A small web app that displays 3 pokemon chosen at 
-*	random from PokeAPI.co
-*	Clicking on a Pokémon displays its informations 
-*	underneath.
+*	Pokémon Trio
+*
+*	A small web page that displays 3 pokemon chosen at 
+*	random from PokeAPI.co, and their Pokédex data.
 *	
 *---------------------------------------------------------->
 
@@ -16,7 +16,7 @@
 	//An object to manage API caching in order to improve response time
 	class Cache
 	{
-		private $delay;
+		private $delay; //Cache persistence (in seconds)
 		
 		function Cache($d){$this->delay = $d;}
 		
@@ -137,7 +137,7 @@
 		if($color[$i] == 'black' || $color[$i] == 'white' || $color[$i] == 'gray') $color[$i]='grey';
 		$spriteFile[$i] = $cache->getImg($pokemonData["sprites"]["front_default"]);
 		$commonName = $speciesData["name"];
-		//Local data
+		//Localized data
 		$name[$i] = getLocale($speciesData["names"], $lang, "name");
 		$genus[$i] = getLocale($speciesData["genera"], $lang, "genus");
 		$habitat[$i] = getLocale($habitatData["names"], $lang, "name");
@@ -194,6 +194,8 @@
 	<body>
 		<main>
 			<div class="container">
+			
+				<!-- TITLE (with language dropdown)-->
 				<section class="row valign-wrapper">
 					<h1 class="col s11">Pokémon Trio</h1>		
 					<a class='dropdown-button waves-effect waves-light btn col s2 m1 grey' href='#' data-activates='dropdown1'><?php echo $lang; ?></a>
@@ -205,11 +207,12 @@
 					</ul>
 				</section>
 				<div class="divider"></div>
+				
+				<!-- TAGLINE -->
 				<p class="flow-text"> <?php echo json_decode(file_get_contents("locale.json"), true)[$lang]; ?></p>  
 
 				<div class="center-align">
-				
-				<?php
+				<?php  //Adding the three Pokémon blocks (Poké-Ball + Pokémon)
 					for($i=0; $i<3; $i++)
 					{
 						echo "<span class='pkmnBlock' id='pkmnBlock".$i."'>";
@@ -218,16 +221,15 @@
 						echo "</span>";
 					}
 				?>
-				
 				</div>
-				<div class="row">
 				
-				<?php
+				<div class="row">
+				<?php  //Building the three Pokédex cards
 					for($i=0; $i<3; $i++)
 					{
 						echo 
 						'<div class="pkdx card horizontal col s12 m6 offset-m3 '.$color[$i].' lighten-5" id="pkdx'.$i.'" style="display:none">
-							<div class="card-image center-align '.$color[$i].' lighten-4">
+							<div class="card-image center-align '.$color[$i].' lighten-4" >
 								<p><img src="'.$spriteFile[$i].'"></p>';
 						if($canEvolve[$i])
 						{
@@ -243,7 +245,7 @@
 									<h4>'.$id[$i].': '.$name[$i].'</h4>
 									<h5>'.$genus[$i].'</h5><br>
 									<p>';
-						if($types[$i][1] != "N/A") echo $types[$i][0]."/".$types[$i][1]; //If there are two types, separate them with a /
+						if($types[$i][1] != "N/A") echo $types[$i][0]."/".$types[$i][1]; //If there are two types, separate them with a '/'
 						else echo $types[$i][0];
 						echo						
 								'	('.$habitat[$i].')</p>
@@ -257,6 +259,7 @@
 				?>
 				
 				</div>
+				<div class="center-align"><a id="replay" href="" style="display:none"><i class="material-icons grey-text" style="font-size:3em" >replay</i></a></div>
 			</div>
 		</main>
 		
