@@ -73,4 +73,5 @@
 	display: inline-block;
 	width:100px;
 	height:110px;
+	transition: all 1s ease;
 }

@@ -67,12 +67,9 @@ $(document).ready(function(){
 	//prevent the user to choose again, and offer him to replay the application.
 	$('#choice0').one('click',function(){
 		$('.choice').hide();                                       //Hide all choice buttons
-		$('#pkmnBlock0').css({"transition":"all 1s",               //Move chosen Pokémon up, the other down
-							  "transform":"translate(0,-17px)"});
-		$('#pkmnBlock1').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
-		$('#pkmnBlock2').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
+		$('#pkmnBlock0').css({"transform":"translate(0,-17px)"});
+		$('#pkmnBlock1').css({"transform":"translate(0,17px)"});
+		$('#pkmnBlock2').css({"transform":"translate(0,17px)"});
 		$('#pkmnBlock0').before($("#pkmnBlock1"));                 //Put the chosen Pokémon at the middle
 		$('.pkbl:visible').fadeOut('slow',function(){              //Open the remaining Pokéballs
 			$('.pkmn:not(:visible)').removeClass("breath");
@@ -82,12 +79,9 @@ $(document).ready(function(){
 	});
 	$('#choice1').one('click',function(){
 		$('.choice').hide();
-		$('#pkmnBlock0').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
-		$('#pkmnBlock1').css({"transition":"all 1s",
-							  "transform":"translate(0,-17px)"});
-		$('#pkmnBlock2').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
+		$('#pkmnBlock0').css({"transform":"translate(0,17px)"});
+		$('#pkmnBlock1').css({"transform":"translate(0,-17px)"});
+		$('#pkmnBlock2').css({"transform":"translate(0,17px)"});
 		$('.pkbl:visible').fadeOut('slow',function(){
 			$('.pkmn:not(:visible)').removeClass("breath");
 			$('.pkmn').show();
@@ -96,12 +90,9 @@ $(document).ready(function(){
 	});
 	$('#choice2').one('click',function(){
 		$('.choice').hide();
-		$('#pkmnBlock0').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
-		$('#pkmnBlock1').css({"transition":"all 1s",
-							  "transform":"translate(0,17px)"});
-		$('#pkmnBlock2').css({"transition":"all 1s",
-							  "transform":"translate(0,-17px)"});
+		$('#pkmnBlock0').css({"transform":"translate(0,17px)"});
+		$('#pkmnBlock1').css({"transform":"translate(0,17px)"});
+		$('#pkmnBlock2').css({"transform":"translate(0,-17px)"});
 		$('#pkmnBlock2').after($("#pkmnBlock1"));
 		$('.pkbl:visible').fadeOut('slow',function(){
 			$('.pkmn:not(:visible)').removeClass("breath");
